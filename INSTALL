@@ -1,0 +1,6 @@
+
+To use this solution, add 
+auto_prepend_file=/..../php_auto_pre.php
+to a file located in
+/etc/php/7.0/mods-enabled/
+
