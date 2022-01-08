@@ -38,7 +38,8 @@ function mysql_connect($server=null, $username=null, $password=null, $new_link=f
 	global $vts_mysqli;
         $ary = explode(':', $server);
 	$host = $ary[0];
-	$port = isset($ary[1]) ? $ary[1] : ini_get("mysqli.default_port");
+	$ini_port = ini_get("mysqli.default_port");
+	$port = isset($ary[1]) ? (int)$ary[1] : ($ini_port ? (int)$ini_port : 3306);
 	if (is_null($server)) $port = ini_get("mysqli.default_host");
 	if (is_null($username)) $port = ini_get("mysqli.default_user");
 	if (is_null($password)) $port = ini_get("mysqli.default_password");
@@ -61,7 +62,7 @@ function mysql_data_seek($result, $row_number) {
 		$err = mysql_error();
 		throw new Exception("Called mysql_data_seek() with an erroneous argument.".($err == '' ? '' : " Possible cause: $err"));
 	}
-	return $result->data_seek($offset) !== false;
+	return $result->data_seek($row_number) !== false;
 }
 
 // Liefert Schema Namen vom Aufruf von mysql_list_dbs
@@ -185,7 +186,7 @@ function mysql_field_flags($result, $field_offset) {
 		$err = mysql_error();
 		throw new Exception("Called mysql_field_flags() with an erroneous argument.".($err == '' ? '' : " Possible cause: $err"));
 	}
-	return $result->fetch_field_direct($fieldnr)->flags;
+	return $result->fetch_field_direct($field_offset)->flags;
 }
 
 // Liefert die Länge des angegebenen Feldes
@@ -194,7 +195,7 @@ function mysql_field_len($result, $field_offset) {
 		$err = mysql_error();
 		throw new Exception("Called mysql_field_len() with an erroneous argument.".($err == '' ? '' : " Possible cause: $err"));
 	}
-	return $result->fetch_field_direct($fieldnr)->length;
+	return $result->fetch_field_direct($field_offset)->length;
 }
 
 // Liefert den Namen eines Feldes in einem Ergebnis
@@ -353,7 +354,8 @@ function mysql_pconnect($server=null, $username=null, $password=null, $client_fl
 	global $vts_mysqli;
         $ary = explode(':', $server);
 	$host = $ary[0];
-	$port = isset($ary[1]) ? $ary[1] : ini_get("mysqli.default_port");
+	$ini_port = ini_get("mysqli.default_port");
+	$port = isset($ary[1]) ? (int)$ary[1] : ($ini_port ? (int)$ini_port : 3306);
 	if (is_null($server)) $port = ini_get("mysqli.default_host");
 	if (is_null($username)) $port = ini_get("mysqli.default_user");
 	if (is_null($password)) $port = ini_get("mysqli.default_password");
