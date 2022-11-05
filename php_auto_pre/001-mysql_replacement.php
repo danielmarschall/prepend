@@ -204,7 +204,7 @@ function mysql_field_name($result, $field_offset) {
 		$err = mysql_error();
 		throw new Exception("Called mysql_field_name() with an erroneous argument.".($err == '' ? '' : " Possible cause: $err"));
 	}
-	return $result->fetch_field_direct()->name; //or "orgname"
+	return $result->fetch_field_direct($field_offset)->name; //or "orgname"
 }
 
 // Setzt den Ergebniszeiger auf ein bestimmtes Feldoffset
