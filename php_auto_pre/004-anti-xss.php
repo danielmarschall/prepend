@@ -3,15 +3,18 @@
 // ATTENTION: This is a very simple XSS "Firewall". There ARE many other ways to do an XSS attack, so please don't rely on this script!
 
 $xxx_directories_need_anti_xss = array(
-	// Webseiten, die mit XSS verseucht sind
 	'/home/'
 );
 
 // ---
 
 function ___check_xss___($str) {
-	if ((stripos($str, '<svg') !== false) || (stripos($str, '<script') !== false)) {
-		die('There is a problem with the data you have entered. Please write us an email if you think you received this message in error. info at viathinksoft.de');
+	$ary = is_array($str) ? $str : array($str);
+	foreach ($ary as $str) {
+		if ((stripos($str, '<svg') !== false) || (stripos($str, '<script') !== false)) {
+			@header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
+			die('There is a problem with the data you have entered. Please write us an email if you think you received this message in error. info at viathinksoft.de');
+		}
 	}
 }
 
