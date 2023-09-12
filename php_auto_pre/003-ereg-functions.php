@@ -59,7 +59,7 @@ if ($xxx_go) {
 				$up = strtoupper($char);
 				$low = strtolower($char);
 				if ($up != $low) {
-					$out .= "[${up}${low}]";
+					$out .= "[$up$low]";
 				} else {
 					$out .= $char;
 				}
