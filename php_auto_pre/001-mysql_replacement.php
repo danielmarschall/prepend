@@ -5,8 +5,9 @@
 // TODO: check if we matched all stuff mentioned here: https://www.phpclasses.org/blog/package/9199/post/3-Smoothly-Migrate-your-PHP-Code-using-the-Old-MySQL-extension-to-MySQLi.html
 
 $vts_mysqli = null;
+$vts_mysqli_report_set_once = false;
 
-// Liefert die Anzahl betroffener Datensätze einer vorhergehenden MySQL Operation
+// Liefert die Anzahl betroffener DatensÃ¤tze einer vorhergehenden MySQL Operation
 function mysql_affected_rows($link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -24,7 +25,7 @@ function mysql_client_encoding($link_identifier=NULL) {
 	return $li->character_set_name();
 }
 
-// Schließt eine Verbindung zu MySQL
+// SchlieÃŸt eine Verbindung zu MySQL
 function mysql_close($link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -33,9 +34,10 @@ function mysql_close($link_identifier=NULL) {
 	return $li->close();
 }
 
-// Öffnet eine Verbindung zu einem MySQL-Server
+// Ã–ffnet eine Verbindung zu einem MySQL-Server
 function mysql_connect($server=null, $username=null, $password=null, $new_link=false, $client_flags=0) {
 	global $vts_mysqli;
+	global $vts_mysqli_report_set_once;
         $ary = explode(':', $server);
 	$host = $ary[0];
 	$ini_port = ini_get("mysqli.default_port");
@@ -44,6 +46,10 @@ function mysql_connect($server=null, $username=null, $password=null, $new_link=f
 	if (is_null($username)) $port = ini_get("mysqli.default_user");
 	if (is_null($password)) $port = ini_get("mysqli.default_password");
 	$vts_mysqli = new mysqli($host, $username, $password, /*dbname*/'', $port, ini_get("mysqli.default_socket"));
+	if (!$vts_mysqli_report_set_once) {
+		mysqli_report(MYSQLI_REPORT_OFF); // PHP <8.1 compatibility
+		$vts_mysqli_report_set_once = true;
+	}
 	return (empty($vts_mysqli->connect_error) && ($vts_mysqli->connect_errno == 0)) ? $vts_mysqli : false;
 }
 
@@ -75,7 +81,7 @@ function mysql_db_name($result, $row, $field=NULL) {
 	return mysql_fetch_array($result)[is_null($field) ? 0 : $field];
 }
 
-// Selektiert ein Schema und führt in ihm Anfrage aus
+// Selektiert ein Schema und fÃ¼hrt in ihm Anfrage aus
 function mysql_db_query($database, $query, $link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -86,7 +92,7 @@ function mysql_db_query($database, $query, $link_identifier=NULL) {
 	// Note: The mysql_*() implementation defines, that we will not jump back to our original DB
 }
 
-// Löschen eines Schemas
+// LÃ¶schen eines Schemas
 function mysql_drop_db($database_name, $link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -95,7 +101,7 @@ function mysql_drop_db($database_name, $link_identifier=NULL) {
 	return mysql_query("DROP DATABASE `$database_name`", $li) !== false;
 }
 
-// Liefert die Nummer einer Fehlermeldung einer zuvor ausgeführten MySQL Operation
+// Liefert die Nummer einer Fehlermeldung einer zuvor ausgefÃ¼hrten MySQL Operation
 function mysql_errno($link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -104,7 +110,7 @@ function mysql_errno($link_identifier=NULL) {
 	return !empty($li->connect_errno) ? $li->connect_errno : $li->errno;
 }
 
-// Liefert den Fehlertext der zuvor ausgeführten MySQL Operation
+// Liefert den Fehlertext der zuvor ausgefÃ¼hrten MySQL Operation
 function mysql_error($link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -149,7 +155,7 @@ function mysql_fetch_field($result, $field_offset=0) {
 	return $result->fetch_field();
 }
 
-// Liefert die Länge eines jeden Feldes in einem Ergebnis
+// Liefert die LÃ¤nge eines jeden Feldes in einem Ergebnis
 function mysql_fetch_lengths($result) {
 	if (!$result) {
 		$err = mysql_error();
@@ -189,7 +195,7 @@ function mysql_field_flags($result, $field_offset) {
 	return $result->fetch_field_direct($field_offset)->flags;
 }
 
-// Liefert die Länge des angegebenen Feldes
+// Liefert die LÃ¤nge des angegebenen Feldes
 function mysql_field_len($result, $field_offset) {
 	if (!$result) {
 		$err = mysql_error();
@@ -216,7 +222,7 @@ function mysql_field_seek($result, $field_offset) {
 	return $result->field_seek($field_offset);
 }
 
-// Liefert den Namen der Tabelle, die das genannte Feld enthält
+// Liefert den Namen der Tabelle, die das genannte Feld enthÃ¤lt
 function mysql_field_table($result, $field_offset) {
 	if (!$result) {
 		$err = mysql_error();
@@ -276,7 +282,7 @@ function mysql_get_server_info($link_identifier=NULL) {
 	return $li->server_info;
 }
 
-// Liefert Informationen über die zuletzt ausgeführte Anfrage zurück
+// Liefert Informationen Ã¼ber die zuletzt ausgefÃ¼hrte Anfrage zurÃ¼ck
 function mysql_info($link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -294,7 +300,7 @@ function mysql_insert_id($link_identifier=NULL) {
 	return $li->insert_id;
 }
 
-// Auflistung der verfügbaren Datenbanken (Schemata) auf einem MySQL Server
+// Auflistung der verfÃ¼gbaren Datenbanken (Schemata) auf einem MySQL Server
 function mysql_list_dbs($link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
@@ -349,7 +355,7 @@ function mysql_num_rows($result) {
 	return $result->num_rows;
 }
 
-// Öffnet eine persistente Verbindung zum MySQL Server
+// Ã–ffnet eine persistente Verbindung zum MySQL Server
 function mysql_pconnect($server=null, $username=null, $password=null, $client_flags=0) {
 	global $vts_mysqli;
         $ary = explode(':', $server);
@@ -381,7 +387,7 @@ function mysql_query($query, $link_identifier=NULL) {
 	return $li->query($query, $resultmode=MYSQLI_STORE_RESULT);
 }
 
-// Maskiert spezielle Zeichen innerhalb eines Strings für die Verwendung in einer SQL-Anweisung
+// Maskiert spezielle Zeichen innerhalb eines Strings fÃ¼r die Verwendung in einer SQL-Anweisung
 function mysql_real_escape_string($unescaped_string, $link_identifier=NULL) {
 	global $vts_mysqli;
 	$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
