@@ -3,7 +3,7 @@
 // ATTENTION: This is a very simple XSS "Firewall". There ARE many other ways to do an XSS attack, so please don't rely on this script!
 
 $xxx_vts_prepend_config = array();
-if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/config.local.php')) include $xxx_vts_prepend_config_file;
+if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/../config.local.php')) include $xxx_vts_prepend_config_file;
 unset($xxx_vts_prepend_config_file);
 $xxx_directories_need_anti_xss = $xxx_vts_prepend_config['directories_need_anti_xss'];
 unset($xxx_vts_prepend_config);

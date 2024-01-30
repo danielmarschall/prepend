@@ -1,7 +1,7 @@
 <?php
 
 $xxx_vts_prepend_config = array();
-if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/config.local.php')) include $xxx_vts_prepend_config_file;
+if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/../config.local.php')) include $xxx_vts_prepend_config_file;
 unset($xxx_vts_prepend_config_file);
 $xxx_directories_need_registerglobals = $xxx_vts_prepend_config['directories_need_registerglobals'];
 unset($xxx_vts_prepend_config);
