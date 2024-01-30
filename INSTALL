@@ -4,3 +4,5 @@ auto_prepend_file=/..../php_auto_pre.php
 to a file located in
 /etc/php/7.0/mods-enabled/
 
+copy includes/config.dist.php to includes/config.local.php and edit it to your needs
+

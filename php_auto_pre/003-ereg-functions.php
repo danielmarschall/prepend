@@ -1,19 +1,24 @@
 <?php
 
-$xxx_directories_need_ereg = array(
-	'/home/villariva' // Gästebuch arbeitet noch mit ereg... (/home/villariva/public_html/includes/misc_functions.php)
-);
-
-// ---
+$xxx_vts_prepend_config = array();
+if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/config.local.php')) include $xxx_vts_prepend_config_file;
+unset($xxx_vts_prepend_config_file);
+$xxx_directories_need_ereg = $xxx_vts_prepend_config['directories_need_ereg'] ?? array();
+unset($xxx_vts_prepend_config);
 
 $xxx_go = false;
 foreach ($xxx_directories_need_ereg as $xxx_directory_need_ereg) {
-	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_ereg) === 0) {
-		$xxx_go = true;
+	if ($xxx_negate = (substr($xxx_directory_need_ereg,0,1) === '!')) {
+		$xxx_directory_need_ereg = substr($xxx_directory_need_ereg,1);
 	}
+	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_ereg) === 0) {
+		$xxx_go = !$xxx_negate;
+	}
+	unset($xxx_negate);
 }
 unset($xxx_directories_need_ereg);
 unset($xxx_directory_need_ereg);
+
 if ($xxx_go) {
 	if (function_exists('ereg') !== true) {
 		function ereg($pattern, $string, &$regs) {
