@@ -3,11 +3,11 @@
 $xxx_vts_prepend_config = array();
 if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/../config.local.php')) include $xxx_vts_prepend_config_file;
 unset($xxx_vts_prepend_config_file);
-$xxx_directories_need_ereg = $xxx_vts_prepend_config['directories_need_ereg'] ?? array();
+$xxx_directories_need_ereg = $xxx_vts_prepend_config['directories_need_ereg'] ?? array(); /* @phpstan-ignore-line */
 unset($xxx_vts_prepend_config);
 
 $xxx_go = false;
-foreach ($xxx_directories_need_ereg as $xxx_directory_need_ereg) {
+foreach ($xxx_directories_need_ereg as $xxx_directory_need_ereg) { /* @phpstan-ignore-line */
 	if ($xxx_negate = (substr($xxx_directory_need_ereg,0,1) === '!')) {
 		$xxx_directory_need_ereg = substr($xxx_directory_need_ereg,1);
 	}
@@ -19,7 +19,7 @@ foreach ($xxx_directories_need_ereg as $xxx_directory_need_ereg) {
 unset($xxx_directories_need_ereg);
 unset($xxx_directory_need_ereg);
 
-if ($xxx_go) {
+if ($xxx_go) { /* @phpstan-ignore-line */
 	if (function_exists('ereg') !== true) {
 		function ereg($pattern, $string, &$regs) {
 			return preg_match('~' . addcslashes($pattern, '~') . '~', $string, $regs);

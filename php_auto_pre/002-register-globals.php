@@ -3,11 +3,11 @@
 $xxx_vts_prepend_config = array();
 if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/../config.local.php')) include $xxx_vts_prepend_config_file;
 unset($xxx_vts_prepend_config_file);
-$xxx_directories_need_registerglobals = $xxx_vts_prepend_config['directories_need_registerglobals'];
+$xxx_directories_need_registerglobals = $xxx_vts_prepend_config['directories_need_registerglobals'] ?? array(); /* @phpstan-ignore-line */
 unset($xxx_vts_prepend_config);
 
 $xxx_go = false;
-foreach ($xxx_directories_need_registerglobals as $xxx_directory_need_registerglobals) {
+foreach ($xxx_directories_need_registerglobals as $xxx_directory_need_registerglobals) { /* @phpstan-ignore-line */
 	if ($xxx_negate = (substr($xxx_directory_need_registerglobals,0,1) === '!')) {
 		$xxx_directory_need_registerglobals = substr($xxx_directory_need_registerglobals,1);
 	}
@@ -19,7 +19,7 @@ foreach ($xxx_directories_need_registerglobals as $xxx_directory_need_registergl
 unset($xxx_directories_need_registerglobals);
 unset($xxx_directory_need_registerglobals);
 
-if ($xxx_go) {
+if ($xxx_go) { /* @phpstan-ignore-line */
 	# Warum so viele ___ ? Damit man auf keinen Fall ein GET/POST Argument mit diesen Variablen überschreibt!
 	foreach ($_REQUEST as $___key___ => $___val___) {
 		global ${$___key___};

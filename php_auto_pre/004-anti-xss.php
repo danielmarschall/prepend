@@ -5,7 +5,7 @@
 $xxx_vts_prepend_config = array();
 if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/../config.local.php')) include $xxx_vts_prepend_config_file;
 unset($xxx_vts_prepend_config_file);
-$xxx_directories_need_anti_xss = $xxx_vts_prepend_config['directories_need_anti_xss'];
+$xxx_directories_need_anti_xss = $xxx_vts_prepend_config['directories_need_anti_xss'] ?? array(); /* @phpstan-ignore-line */
 unset($xxx_vts_prepend_config);
 
 function ___check_xss___($str) {
@@ -22,7 +22,7 @@ function ___check_xss___($str) {
 // ---
 
 $xxx_go = false;
-foreach ($xxx_directories_need_anti_xss as $xxx_directory_need_anti_xss) {
+foreach ($xxx_directories_need_anti_xss as $xxx_directory_need_anti_xss) { /* @phpstan-ignore-line */
 	if ($xxx_negate = (substr($xxx_directory_need_anti_xss,0,1) === '!')) {
 		$xxx_directory_need_anti_xss = substr($xxx_directory_need_anti_xss,1);
 	}
@@ -33,7 +33,7 @@ foreach ($xxx_directories_need_anti_xss as $xxx_directory_need_anti_xss) {
 unset($xxx_directories_need_anti_xss);
 unset($xxx_directory_need_anti_xss);
 
-if ($xxx_go) {
+if ($xxx_go) { /* @phpstan-ignore-line */
 	if (isset($_SERVER['REQUEST_URI'])) ___check_xss___($_SERVER['REQUEST_URI']);
 	if (isset($_SERVER['QUERY_STRING'])) ___check_xss___($_SERVER['QUERY_STRING']);
 	if (isset($_SERVER['SCRIPT_URI'])) ___check_xss___($_SERVER['SCRIPT_URI']);

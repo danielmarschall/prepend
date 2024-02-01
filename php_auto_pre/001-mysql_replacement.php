@@ -8,11 +8,11 @@
 $xxx_vts_prepend_config = array();
 if (file_exists($xxx_vts_prepend_config_file = __DIR__.'/../config.local.php')) include $xxx_vts_prepend_config_file;
 unset($xxx_vts_prepend_config_file);
-$xxx_directories_need_mysql = $xxx_vts_prepend_config['directories_need_mysql'];
+$xxx_directories_need_mysql = $xxx_vts_prepend_config['directories_need_mysql'] ?? array(); /* @phpstan-ignore-line */
 unset($xxx_vts_prepend_config);
 
 $xxx_go = false;
-foreach ($xxx_directories_need_mysql as $xxx_directory_need_mysql) {
+foreach ($xxx_directories_need_mysql as $xxx_directory_need_mysql) { /* @phpstan-ignore-line */
 	if ($xxx_negate = (substr($xxx_directory_need_mysql,0,1) === '!')) {
 		$xxx_directory_need_mysql = substr($xxx_directory_need_mysql,1);
 	}
@@ -24,7 +24,7 @@ foreach ($xxx_directories_need_mysql as $xxx_directory_need_mysql) {
 unset($xxx_directories_need_mysql);
 unset($xxx_directory_need_mysql);
 
-if ($xxx_go && !function_exists('mysql_connect')) {
+if ($xxx_go && !function_exists('mysql_connect')) { /* @phpstan-ignore-line */
 
 	$vts_mysqli = null;
 	$vts_mysqli_report_set_once = false;
