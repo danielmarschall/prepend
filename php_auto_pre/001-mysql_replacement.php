@@ -19,6 +19,9 @@ foreach ($xxx_directories_need_mysql as $xxx_directory_need_mysql) { /* @phpstan
 	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_mysql) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
+	if (strpos($_SERVER['PWD'] ?? '', $xxx_directory_need_mysql) === 0) {
+		$xxx_go = !$xxx_negate;
+	}
 	unset($xxx_negate);
 }
 unset($xxx_directories_need_mysql);

@@ -29,6 +29,9 @@ foreach ($xxx_directories_need_anti_xss as $xxx_directory_need_anti_xss) { /* @p
 	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_anti_xss) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
+	if (strpos($_SERVER['PWD'] ?? '', $xxx_directory_need_anti_xss) === 0) {
+		$xxx_go = !$xxx_negate;
+	}
 }
 unset($xxx_directories_need_anti_xss);
 unset($xxx_directory_need_anti_xss);

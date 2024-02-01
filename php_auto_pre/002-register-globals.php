@@ -14,6 +14,9 @@ foreach ($xxx_directories_need_registerglobals as $xxx_directory_need_registergl
 	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_registerglobals) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
+	if (strpos($_SERVER['PWD'] ?? '', $xxx_directory_need_registerglobals) === 0) {
+		$xxx_go = !$xxx_negate;
+	}
 	unset($xxx_negate);
 }
 unset($xxx_directories_need_registerglobals);

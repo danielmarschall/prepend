@@ -14,6 +14,9 @@ foreach ($xxx_directories_need_ereg as $xxx_directory_need_ereg) { /* @phpstan-i
 	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_ereg) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
+	if (strpos($_SERVER['PWD'] ?? '', $xxx_directory_need_ereg) === 0) {
+		$xxx_go = !$xxx_negate;
+	}
 	unset($xxx_negate);
 }
 unset($xxx_directories_need_ereg);
