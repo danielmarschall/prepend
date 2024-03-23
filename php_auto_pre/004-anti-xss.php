@@ -11,6 +11,7 @@ unset($xxx_vts_prepend_config);
 function ___check_xss___($str) {
 	$ary = is_array($str) ? $str : array($str);
 	foreach ($ary as $str) {
+		if (!is_string($str)) continue;
 		if ((stripos($str, '<svg') !== false) || (stripos($str, '<script') !== false)) {
 			#@header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
 			@header($_SERVER['SERVER_PROTOCOL'] . ' 400 Bad Request', true, 400);
