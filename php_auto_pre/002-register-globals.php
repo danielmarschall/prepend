@@ -11,10 +11,10 @@ foreach ($xxx_directories_need_registerglobals as $xxx_directory_need_registergl
 	if ($xxx_negate = (substr($xxx_directory_need_registerglobals,0,1) === '!')) {
 		$xxx_directory_need_registerglobals = substr($xxx_directory_need_registerglobals,1);
 	}
-	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_registerglobals) === 0) {
+	if (strpos($_SERVER['SCRIPT_FILENAME']??'', $xxx_directory_need_registerglobals) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
-	if (strpos($_SERVER['PWD'] ?? '', $xxx_directory_need_registerglobals) === 0) {
+	if (strpos(rtrim($_SERVER['PWD']??'',DIRECTORY_SEPARATOR), rtrim($xxx_directory_need_registerglobals,DIRECTORY_SEPARATOR)) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
 	unset($xxx_negate);

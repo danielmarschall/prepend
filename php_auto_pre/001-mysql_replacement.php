@@ -16,10 +16,10 @@ foreach ($xxx_directories_need_mysql as $xxx_directory_need_mysql) { /* @phpstan
 	if ($xxx_negate = (substr($xxx_directory_need_mysql,0,1) === '!')) {
 		$xxx_directory_need_mysql = substr($xxx_directory_need_mysql,1);
 	}
-	if (strpos($_SERVER['SCRIPT_FILENAME'], $xxx_directory_need_mysql) === 0) {
+	if (strpos($_SERVER['SCRIPT_FILENAME']??'', $xxx_directory_need_mysql) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
-	if (strpos($_SERVER['PWD'] ?? '', $xxx_directory_need_mysql) === 0) {
+	if (strpos(rtrim($_SERVER['PWD']??'',DIRECTORY_SEPARATOR), rtrim($xxx_directory_need_mysql,DIRECTORY_SEPARATOR)) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
 	unset($xxx_negate);
