@@ -27,10 +27,10 @@ foreach ($xxx_directories_need_anti_xss as $xxx_directory_need_anti_xss) { /* @p
 	if ($xxx_negate = (substr($xxx_directory_need_anti_xss,0,1) === '!')) {
 		$xxx_directory_need_anti_xss = substr($xxx_directory_need_anti_xss,1);
 	}
-	if (strpos($_SERVER['SCRIPT_FILENAME']??'', $xxx_directory_need_anti_xss) === 0) {
+	if (strpos(realpath($_SERVER['SCRIPT_FILENAME']??''), realpath($xxx_directory_need_anti_xss)) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
-	if (strpos(rtrim($_SERVER['PWD']??'',DIRECTORY_SEPARATOR), rtrim($xxx_directory_need_anti_xss,DIRECTORY_SEPARATOR)) === 0) {
+	if (strpos(realpath(rtrim($_SERVER['PWD']??'',DIRECTORY_SEPARATOR)), realpath(rtrim($xxx_directory_need_anti_xss,DIRECTORY_SEPARATOR))) === 0) {
 		$xxx_go = !$xxx_negate;
 	}
 }
