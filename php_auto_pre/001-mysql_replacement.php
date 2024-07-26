@@ -393,6 +393,14 @@ if ($xxx_go && !function_exists('mysql_connect')) { /* @phpstan-ignore-line */
 		return $li->query($query, $resultmode=MYSQLI_STORE_RESULT);
 	}
 
+	// This name "_unbuffered" comes from us. It is used for big result sets which would otherwise cause OutOfMemory
+	function mysql_query_unbuffered($query, $link_identifier=NULL) {
+		global $vts_mysqli;
+		$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
+		if (is_null($li)) throw new Exception("Cannot execute mysql_query(). No valid connection to server.");
+		return $li->query($query, $resultmode=MYSQLI_USE_RESULT);
+	}
+
 	// Maskiert spezielle Zeichen innerhalb eines Strings für die Verwendung in einer SQL-Anweisung
 	function mysql_real_escape_string($unescaped_string, $link_identifier=NULL) {
 		global $vts_mysqli;
