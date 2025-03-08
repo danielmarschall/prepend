@@ -50,10 +50,15 @@ if ($xxx_go && !function_exists('mysql_connect')) { /* @phpstan-ignore-line */
 
 	// Schließt eine Verbindung zu MySQL
 	function mysql_close($link_identifier=NULL) {
-		global $vts_mysqli;
-		$li = is_null($link_identifier) ? $vts_mysqli : $link_identifier;
-		if (is_null($li)) throw new Exception("Cannot execute mysql_close(). No valid connection to server.");
-		return $li->close();
+		if (is_null($link_identifier)) {
+			global $vts_mysqli;
+			if (is_null($vts_mysqli)) throw new Exception("Cannot execute mysql_close(). No valid connection to server.");
+			$res = $vts_mysqli->close();
+			if ($res) $vts_mysqli = null;
+			return $res;
+		} else {
+			return $link_identifier->close();
+		}
 	}
 
 	// Öffnet eine Verbindung zu einem MySQL-Server
